@@ -1,13 +1,15 @@
 package com.sharedservices.endpoint;
 
 //import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Endpoint {
+public class EndpointSec {
 
 //    @HystrixCommand(groupKey = "group1", commandKey = "createAccount", threadPoolKey = "priority-1-pool",
 //            ignoreExceptions = {BadRequestException.class})
@@ -23,12 +25,12 @@ public class Endpoint {
 //    }
 
     @CircuitBreaker(name = "createAccount", fallbackMethod = "fallbackGetListValues")
-    @GetMapping("/greeting")
-    public ResponseEntity<?> greeting() {
+    @GetMapping("/greetingSec")
+    public ResponseEntity<?> greetingSec() {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> fallbackGetListValues(Exception e) throws BadRequestException {
+    public ResponseEntity<?> fallbackGetListValues(Exception e) {
         return ResponseEntity.status(HttpStatus.OK).body("Fallback response");
     }
 

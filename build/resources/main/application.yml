@@ -1,0 +1,23 @@
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        enabled: true
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 150000
+    createAccount:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 150000
+  threadpool:
+    priority-1-pool:
+      coreSize: 20
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maximumSize: 70
+      queueSizeRejectionThreshold: 0
+      maxQueueSize: 0
+      keepAliveTimeMinutes: 2

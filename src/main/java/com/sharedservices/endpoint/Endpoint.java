@@ -1,6 +1,7 @@
 package com.sharedservices.endpoint;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.sharedservices.exception.BadRequestException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,12 +12,8 @@ public class Endpoint {
     @GetMapping("/greeting")
     public @ResponseBody String greeting()
     {
-        try {
-            throw new Exception("test");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-//        return "test response";
+        // some code implementation
+        return "test response";
     }
 
 }

@@ -38,3 +38,12 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 50s
       eventConsumerBufferSize: 10
       ignore-exceptions: com.sharedservices.endpoint.BadRequestException
+
+resilience4j.timelimiter:
+  configs:
+    default:
+      timeoutDuration: 5s
+      cancelRunningFuture: true
+  instances:
+    createAccount:
+      eventConsumerBufferSize: 10

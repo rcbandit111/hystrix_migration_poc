@@ -2,9 +2,13 @@ package com.sharedservices.endpoint;
 
 //import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 public class Endpoint {
@@ -22,6 +26,7 @@ public class Endpoint {
 ////        return "test response";
 //    }
 
+    @TimeLimiter(name = "createAccount", fallbackMethod = "fallbackGetListValueTimeout")
     @CircuitBreaker(name = "createAccount", fallbackMethod = "fallbackGetListValues")
     @GetMapping("/greeting")
     public ResponseEntity<?> greeting() {
@@ -30,6 +35,13 @@ public class Endpoint {
 
     public ResponseEntity<?> fallbackGetListValues(Exception e) throws BadRequestException {
         return ResponseEntity.status(HttpStatus.OK).body("Fallback response");
+    }
+
+    private CompletableFuture<?> fallbackGetListValueTimeout(Exception e){
+        if(e instanceof TimeoutException){
+            System.out.println("TimeoutException");
+        }
+        return null;
     }
 
 }
